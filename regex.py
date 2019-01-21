@@ -246,3 +246,29 @@ print("r'(long){2,4}?'")
 print("A longlonglonglong lost fucking time ago there was a longlong boy")
 print(mo_1.group())
 
+# ---------------------------------------------------------------
+# findall() to find all occurrences of a match
+# In contrast, search() just finds the first occurrence
+# ---------------------------------------------------------------
+
+print("\nfindall() allows multiple matches to be found")
+phone_num_regex = re.compile(r'\d{3}-\d{3}-\d{4}')
+single_match = phone_num_regex.search("Numbers include 021-444-1234 and 011-123-5678")
+find_all = phone_num_regex.findall("Numbers include 021-444-1234 and 011-123-5678")
+
+print("r'\d{3}-\d{3}-\d{4}'")
+print("Numbers include 021-444-1234 and 011-123-5678")
+print("\nUsing .search():")
+print(single_match.group())
+print("\nUsing .findall():. Note a list is generated, because there are no groups.")
+print(find_all)
+
+# If there are no groups in the regex, findall() returns a list of strings.
+# If there are groups, findall() returns a list of tuples of strings
+
+phone_num_groups = re.compile(r'(\d{3})-(\d{3})-(\d{4})')
+find_all = phone_num_groups.findall("Numbers include 021-444-1234 and 011-123-5678")
+print("r'(\d{3})-(\d{3})-(\d{4})'. Note the groups. This generates a list of tuples of strings.")
+print("Numbers include 021-444-1234 and 011-123-5678")
+print(find_all)
+
