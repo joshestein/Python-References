@@ -272,3 +272,115 @@ print("r'(\d{3})-(\d{3})-(\d{4})'. Note the groups. This generates a list of tup
 print("Numbers include 021-444-1234 and 011-123-5678")
 print(find_all)
 
+# ---------------------------------------------------------------
+# Character classes can be used to shorten regex
+# [0-5] is shorthand for (0|1|2|3|4|5)
+# ---------------------------------------------------------------
+
+# One or more digits followed by a space followed by one or more letter/digit/underscore character(s)
+interesting_regex = re.compile(r'\d+\s\w+')
+info = interesting_regex.findall("42 is the meaning of life, 16 sweets, 7 deamons, 4 abracadabra")
+print("\nr'\d+\s\w+'")
+print("42 is the meaning of life, 16 sweets, 7 deamons, 4 abracadabra")
+print(info)
+
+vowels_regex = re.compile(r'[aeiouAEIOU]')
+vowels = vowels_regex.findall("Never leave home without a TOWEL!")
+print("r'[aeiouAEIOU]'")
+print("Never leave home without a TOWEL!")
+print(vowels)
+
+# You do not need to escape punctuation inside square brackets
+punctuation_regex = re.compile(r'[a-z.]')
+letter_and_period = punctuation_regex.findall("A man a canal.")
+print("r'[a-z.]'. Note the period is not escaped")
+print("A man a canal.")
+print(letter_and_period)
+
+# A caret (^) can be used to negate character classes
+negation = re.compile(r'[^aeiouAEIOU.,\s]')
+consonants = negation.findall("Luke. I am your father")
+print("\nCaret for negation")
+print("r'[^aeiouAEIOU.,\s]'")
+print("Luke. I am your father")
+print(consonants)
+
+# ---------------------------------------------------------------
+# ^ for matching at start, $ for matching at end
+# ---------------------------------------------------------------
+
+begins_with = re.compile(r'^begins')
+mo_1 = begins_with.search("begins with begins")
+mo_2 = begins_with.search("failure man, failure")
+
+print("\nCaret for matching at start")
+print("r'^begins'")
+print("begins with begins")
+print(mo_1.group())
+print("failure man, failure")
+print(mo_2)
+
+ends_with = re.compile(r'ends$')
+mo_1 = ends_with.search("Here I am, at my ends")
+mo_2 = ends_with.search("Alas, I am not yet ready to depart.")
+
+print("\nDollar for matching at end")
+print("r'ends$'")
+print("Here I am, at my ends")
+print(mo_1.group())
+print("Alas, I am not yet ready to depart.")
+print(mo_2)
+
+# Use both caret and dollar to match an entire string
+# r'^\d+$' will match a string that begins and ends with one or more numeric characters.
+
+
+# ---------------------------------------------------------------
+# . (dot) is a wildcard. It matches any character except a newline.
+# ---------------------------------------------------------------
+
+wild_regex = re.compile(r'.eed')
+mo_1 = wild_regex.findall("Breed seed meed mead leed feed creed bead.")
+print("\nUse the dot (.) as a wildcard.")
+print("r'.eed'. Note that this only matches only 1 character, followed by 'eed'.")
+print("Breed seed meed mead leed feed creed bead.")
+print(mo_1)
+
+# Use .* to match everything
+
+everything_regex = re.compile(r'First name: (.*) Last name: (.*)')
+mo_1 = everything_regex.search("First name: Humphry Last name: Davie")
+print("\n.* for everything")
+print("r'First name: (.*) Last name: (.*)'")
+print("First name: Humphry Last name: Davie")
+print(mo_1.groups())
+
+# Use re.DOTALL as the second argument to re.compile() to include matching of newlines
+no_new_line = re.compile(r'.*')
+first_line = no_new_line.search("Alas, Pug.\nI am one of the Dark Brotherhood, and cannot serve the Elves.")
+print("\nr'.*'")
+print("Alas, Pug.\nI am one of the Dark Brotherhood, and cannot serve the Elves.")
+print(first_line.group())
+
+new_line = re.compile(r'.*', re.DOTALL)
+print("\nr'.*', re.DOTALL")
+all_lines = new_line.search("Alas, Pug.\nI am one of the Dark Brotherhood, and cannot serve the Elves.")
+print(all_lines.group())
+
+# ---------------------------------------------------------------
+# Use re.I for case-insensitive matching
+# ---------------------------------------------------------------
+
+regex = re.compile(r'Pug of Crydee', re.I)
+mo_1 = regex.search("PUG OF CRYDEE")
+mo_2 = regex.search("pug of crydee")
+mo_3 = regex.search("Pug of Crydee")
+
+print("\nre.I for case-insensitive matching")
+print("r'Pug of Crydee', re.I")
+print("PUG OF CRYDEE")
+print(mo_1.group())
+print("pug of crydee")
+print(mo_2.group())
+print("Pug of Crydee")
+print(mo_3.group())
